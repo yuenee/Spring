@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8"></meta>
+</head>
+<body>
+	<div th:fragment="userDetail_contents">
+		<div class="row">
+			<div class="col-sm-5">
+				<div class="page-header">
+					<h1>ユーザー詳細</h1>
+				</div>
+				<form method="post" th:action="@{/userDetail}" th:object="${signupForm}">
+					<table class="table table-borderd table-hover">
+						<tr>
+							<!-- ユーザーID（入力不可） -->
+							<th class="active col-sm-2">ユーザーID</th>
+							<td class="col-sm-3">
+								<div class="form-group">
+									<input type="text" class="form-control"
+									th:field="*{userId}"
+									readonly="readonly" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<!-- パスワード -->
+							<th class="active">パスワード</th>
+							<td>
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('password')} ? 'has-error' ">
+									<input type="text" class="form-control"
+										th:field="*{password}" />
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('password')}"
+										th:errors="*{password}">
+										password error
+									</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<!-- ユーザー名 -->
+							<th class="active">ユーザー名</th>
+							<td>
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('userName')} ? 'has-error' ">
+									<input type="text" class="form-control"
+										th:field="*{userName}" />
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('userName')}"
+										th:errors="*{userName}">
+										userName error
+									</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<!-- 誕生日 -->
+							<th class="active">誕生日</th>
+							<td>
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('birthday')} ? 'has-error' ">
+									<input type="text" class="form-control"
+										placeholder="yyyy/MM/dd"
+										th:field="*{birthday}" />
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('birthday')}"
+										th:errors="*{birthday}">
+										birthday error
+									</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<!-- 年齢 -->
+							<th class="active">年齢</th>
+							<td>
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('age')} ? 'has-error' ">
+									<input type="text" class="form-control"
+										th:field="*{age}" />
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('age')}"
+										th:errors="*{age}">
+										age error
+									</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<!-- 結婚 -->
+							<th class="active">結婚</th>
+							<td>
+								<div class="form-group">
+									<div th:each="item : ${radioMarriage}">
+										<input type="radio" name="radioMarrige"
+											th:value="${item.value}"
+											th:text="${item.key}"
+											th:field="*{marriage}">										
+									</div>
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('marriage')}"
+										th:errors="*{marriage}">
+										marriage error	
+									</span>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<!-- 更新ボタン -->
+					<button class="btn btn-primary btn-lg pull-right"
+						type="submit"
+						name="update">
+						更新
+					</button>
+					<!-- 削除ボタン -->
+					<button class="btn btn-danger btn-lg" type="submit" name="delete">
+						削除
+					</button>
+				</form>
+			</div>
+		</div>
+	
+	</div>
+</body>
+</html>
