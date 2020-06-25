@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @EnableWebSecurity
 @Configuration
@@ -29,22 +30,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // ユーザーIDとパスワードを取得するSQL文
     private static final String USER_SQL = "SELECT"
-            + "    user_id,"
-            + "    password,"
-            + "    true"
+            + " user_id,"
+            + " password,"
+            + " true"
             + " FROM"
-            + "    m_user"
+            + " m_user"
             + " WHERE"
-            + "    user_id = ?";
+            + " user_id = ?";
 
     // ユーザーのロールを取得するSQL文
     private static final String ROLE_SQL = "SELECT"
-            + "    user_id,"
-            + "    role"
+            + " user_id,"
+            + " role"
             + " FROM"
-            + "    m_user"
+            + " m_user"
             + " WHERE"
-            + "    user_id = ?";
+            + " user_id = ?";
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -63,7 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll() //cssへアクセス許可
                 .antMatchers("/login").permitAll() //ログインページは直リンクOK
                 .antMatchers("/signup").permitAll() //ユーザー登録画面は直リンクOK
-                .antMatchers("/admin").hasAuthority("ROLE_ADMIN") //アドミンユーザーに許可
+                .antMatchers("/rest/**").permitAll()
+                .antMatchers("/admin").permitAll()
+                //.antMatchers("/admin").hasAuthority("ROLE_ADMIN") //アドミンユーザーに許可
                 .anyRequest().authenticated(); //それ以外は直リンク禁止
 
         //ログイン処理
@@ -78,13 +81,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //ログアウト処理
         http
-                .logout()
+           	.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) //
                 .logoutUrl("/logout") //ログアウトのURL
                 .logoutSuccessUrl("/login"); //ログアウト成功後のURL
 
-        //CSRF対策を無効に設定（一時的）
-        //http.csrf().disable();
+        // CSRFを無効にするURLを設定
+        RequestMatcher csrfMatcher = new RestMatcher("/rest/**");
+        
+        // RESTのみCSRF対策を無効に設定
+        http.csrf().requireCsrfProtectionMatcher(csrfMatcher);
     }
 
     @Override

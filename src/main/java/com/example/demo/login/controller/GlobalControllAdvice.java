@@ -10,33 +10,34 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 @Component
 public class GlobalControllAdvice {
-	
-	@ExceptionHandler(DataAccessException.class)
-	public String dataAccessExceptionHandler(DataAccessException e, Model model) {
-		
-		model.addAttribute("error", "内部サーバーエラー（DB）: GlobalControllAdvice");
-		
-//		例外クラスのメッセージをModelに登録
-		model.addAttribute("message", "DataAccessExceptionが発生しました");
-		
-//		HTTPのエラーコード（５００）をModelに登録
-		model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
-		
-		return "error";
-	}
-	
-	@ExceptionHandler(Exception.class)
-	public String exceptionHandler(Exception e, Model model) {
-		
-//		例外クラスのメッセージをModelに登録
-		model.addAttribute("error", "内部サーバーエラー：GlobalControllAdvice");
-		
-//		例外クラスのメッセージをModelに登録
-		model.addAttribute("message", "Exceptionが発生しました");
-		
-//		HTTPのエラーコード（５００）をModelに登録
-		model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
-		
-		return "error";
-	}
+
+    @ExceptionHandler(DataAccessException.class)
+    public String dataAccessExceptionHandler(DataAccessException e, Model model) {
+
+        // 例外クラスのメッセージをModelに登録
+        model.addAttribute("error", "内部サーバーエラー（DB）：GlobalControllAdvice");
+
+        // 例外クラスのメッセージをModelに登録
+        model.addAttribute("message", "DataAccessExceptionが発生しました");
+
+        // HTTPのエラーコード（500）をModelに登録
+        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return "error";
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String exceptionHandler(Exception e, Model model) {
+
+        // 例外クラスのメッセージをModelに登録
+        model.addAttribute("error", "内部サーバーエラー：GlobalControllAdvice");
+
+        // 例外クラスのメッセージをModelに登録
+        model.addAttribute("message", "Exceptionが発生しました");
+
+        // HTTPのエラーコード（500）をModelに登録
+        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return "error";
+    }
 }

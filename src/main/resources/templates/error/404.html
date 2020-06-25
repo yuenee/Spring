@@ -7,6 +7,7 @@
 <body>
 	<h1 th:text="${status} + ' ' + ${error}"></h1>
 	<p>これは、404エラーの専用ページです</p>
+	<p>ログイン画面に戻ってください</p>
 	<form method="post" th:action="@{/logout}">
 		<button class="btn btn-link" type="submit">ログイン画面に戻る</button>
 	</form>

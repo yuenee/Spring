@@ -232,6 +232,6 @@ public class HomeController {
     	model.addAttribute("contents", "login/admin :: admin_contents");
     	
 //    	レイアウト用テンプレート
-    	return "login/homeLeyout";
+    	return "login/homeLayout";
     }
 }

@@ -2,17 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"></meta>
+	
 	<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
 	<script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+	
 	<title>SignUp</title>
 </head>
 <body>
 	<div class="col-sm-5">
 		<div class="page-header">
 			<h1>ユーザー登録画面</h1>
-		</div> <!-- action="signup" 追加 -->
-		<form method="post" action="/signup" th:object="${signupForm}">
+		</div>
+		<form method="post" th:action="@{/signup}" th:object="${signupForm}">
 			<table class="table table-bordered table-hover">
 				<!-- ユーザーID入力エリア -->
 				<tr>
@@ -68,8 +70,7 @@
 					<td>
 				  		<div class="form-group"
 				  			th:classappend="${#fields.hasErrors('birthday')} ? 'has-error'">
-				  			<input type="text" class="form-control"
-				  				placeholder="yyyy/MM/dd"
+				  			<input type="text" class="form-control" placeholder="yyyy/MM/dd"
 				  				th:field="*{birthday}" />
 				  			<span class="text-danger"
 				  				th:if="${#fields.hasErrors('birthday')}"
@@ -101,7 +102,7 @@
 					<td>
 						<div class="form-group">
 							<!-- ポイント：ラジオボタンの実装 -->
-							<div th:each="item:${radioMarriage}">
+							<div th:each="item : ${radioMarriage}">
 								<input type="radio" name="radioMarrige"
 									th:text="${item.key}"
 									th:value="${item.value}"
@@ -118,14 +119,12 @@
 			</table>
 			<!-- ポイント２：エラーメッセージの一覧表示 -->
 			<ul>
-				<li th:each="error:${#fields.detailedErrors()}">
+				<li th:each="error : ${#fields.detailedErrors()}">
 					<span th:text="${error.message}">Error message</span>
 				</li>
 			</ul>
 			<!-- ユーザー登録ボタン -->
-			<button class="btn btn-primary" type="submit">
-				ユーザー登録
-			</button>
+			<button class="btn btn-primary" type="submit">ユーザー登録</button>
 		</form>
 	</div>
 </body>
